@@ -74,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject airlinesJson = tempArray.getJSONObject(i);//Преобразование json объекта в нашу структуру
                     Mask tempProduct = new Mask(
                             airlinesJson.getInt("ID"),
-                            airlinesJson.getString("airline_name"),
-                            airlinesJson.getString("airline_website"),
-                            airlinesJson.getString("image")
+                            airlinesJson.getString("Name"),
+                            airlinesJson.getString("Website"),
+                            airlinesJson.getString("Image")
                     );
                     listAirlines.add(tempProduct);
                     pAdapter.notifyDataSetInvalidated();
