@@ -10,11 +10,21 @@
         android:id="@+id/AirList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/goToAdd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </ListView>
 
+    <Button
+        android:id="@+id/goToAdd"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="50dp"
+        android:onClick="goAdd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AirList" />
 </androidx.constraintlayout.widget.ConstraintLayout>

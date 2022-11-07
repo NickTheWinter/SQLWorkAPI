@@ -2,8 +2,10 @@ package com.example.apiwork;
 
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,13 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
         new GetAirlines().execute(); //Подключение к нашей API в отдельном потоке
     }
+    public void goAdd(View v){
+        startActivity(new Intent(MainActivity.this,AddingPage.class));
+    }
     private class GetAirlines extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                URL url = new URL("https://ngknn.ru:5101/NGKNN/%D0%97%D0%B8%D0%BC%D0%B5%D0%BD%D0%BA%D0%BE%D0%B2%D0%BD%D0%B8/api/airlines");
-                //URL url = new URL("https://ngknn.ru:5101/NGKNN/%D0%9C%D0%B0%D0%BC%D1%88%D0%B5%D0%B2%D0%B0%D0%AE%D0%A1/api/Products");//Строка подключения к нашей API
+                URL url = new URL("https://ngknn.ru:5001/NGKNN/%D0%97%D0%B8%D0%BC%D0%B5%D0%BD%D0%BA%D0%BE%D0%B2%D0%BD%D0%B8/api/airlines");
+                //URL url = new URL("https://ngknn.ru:5001/NGKNN/%D0%9C%D0%B0%D0%BC%D1%88%D0%B5%D0%B2%D0%B0%D0%AE%D0%A1/api/Products");//Строка подключения к нашей API
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection(); //вызываем нашу API
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
