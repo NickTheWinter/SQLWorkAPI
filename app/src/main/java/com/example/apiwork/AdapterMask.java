@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class AdapterMask  extends BaseAdapter {
+
     private Context mContext;
     List<Mask> maskList;
 
@@ -41,6 +42,7 @@ public class AdapterMask  extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup)
     {
         View v = View.inflate(mContext,R.layout.item_layuot,null);
+
         TextView AirlineName = v.findViewById(R.id.AirlineName);
         TextView AirlineWebSite = v.findViewById(R.id.AirlineWebsite);
         ImageView imageView = v.findViewById(R.id.imageView);

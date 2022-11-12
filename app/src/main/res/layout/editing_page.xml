@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".AddingPage"
+    tools:context=".EditClass"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/appBackground"
     android:backgroundTint="@color/black"
     android:backgroundTintMode="multiply">
+
     <ImageView
         android:id="@+id/background"
         android:layout_width="wrap_content"
@@ -20,8 +21,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:alpha="0.4"/>
+
     <ImageView
-        android:id="@+id/addPhoto"
+        android:id="@+id/editPhoto"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="25dp"
@@ -34,7 +36,7 @@
 
     </ImageView>
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/addName"
+        android:id="@+id/editName"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -48,7 +50,7 @@
         app:boxStrokeColor="@color/pink_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addPhoto">
+        app:layout_constraintTop_toBottomOf="@+id/editPhoto">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -56,7 +58,7 @@
             android:textStyle="bold"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/addWebsite"
+        android:id="@+id/editWebsite"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -70,7 +72,7 @@
         app:boxStrokeColor="@color/pink_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addName">
+        app:layout_constraintTop_toBottomOf="@+id/editName">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -79,16 +81,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
 
-        android:onClick="AddItems"
-        android:text="ADD"
+
+        android:text="EDIT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addWebsite" />
+        app:layout_constraintTop_toBottomOf="@+id/editWebsite" />
 
     <Button
         android:id="@+id/backButton"
@@ -96,9 +98,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
 
-        android:onClick="Back"
+
         android:text="BACK"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addButton" />
+        app:layout_constraintTop_toBottomOf="@+id/editButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

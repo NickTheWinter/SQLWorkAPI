@@ -3,12 +3,20 @@ package com.example.apiwork;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,20 +30,71 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private AdapterMask pAdapter;
+    View v;
+    ListView airlinesList;
     private List<Mask> listAirlines = new ArrayList<>();
+    Intent edit_page;
+    public static String nameText;
+    public static String webSiteText;
+    public static ImageView image;
+    public static Bitmap imageBm;
+    public static int currentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*
-        Для того чтобы заполнить ListView  нам необходимо создать адптер. Адаптер используется для связи данных (массивы, базы данных)
-        со списком (ListView)
-        */
-        ListView airlinesList = findViewById(R.id.AirList);//Находим лист в который будем класть наши объекты
-        pAdapter = new AdapterMask(MainActivity.this, listAirlines); //Создаем объект нашего адаптера
-        airlinesList.setAdapter(pAdapter); //Cвязывает подготовленный список с адаптером
+        airlinesList = findViewById(R.id.AirList);
+        pAdapter = new AdapterMask(MainActivity.this, listAirlines);
 
-        new GetAirlines().execute(); //Подключение к нашей API в отдельном потоке
+        edit_page = new Intent(MainActivity.this, EditClass.class);
+        edit_page.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        airlinesList.setAdapter(pAdapter);
+        updateList(v);
+
+        airlinesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //listView.setOnItemClickListener((parent, view, position, id) ->{
+
+
+
+                TextView nameTv = view.findViewById(R.id.AirlineName);
+                nameText = nameTv.getText().toString();
+
+                TextView webSiteTv = view.findViewById(R.id.AirlineWebsite);
+                webSiteText = webSiteTv.getText().toString();
+
+                image = view.findViewById(R.id.imageView);
+                imageBm = ((BitmapDrawable)image.getDrawable()).getBitmap();
+
+
+
+                TextInputLayout editName = findViewById(R.id.editName);
+                edit_page.putExtra("editName",nameText);
+
+                TextInputLayout editWebSite = findViewById(R.id.editWebsite);
+                //editWebSite.getEditText().setText(webSiteText);
+                edit_page.putExtra("editWebSite",webSiteText);
+
+
+                edit_page.putExtra("editPhoto",imageBm);
+
+                startActivity(edit_page);
+            };
+        });
+
+    }
+    public void updateList(View v){
+        listAirlines.clear();
+        try {
+
+            new GetAirlines().execute();
+        }
+        catch (Exception ex){
+            Log.e("Error: ",ex.getMessage());
+        }
     }
     public void goAdd(View v){
         startActivity(new Intent(MainActivity.this,AddingPage.class));

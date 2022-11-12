@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddingPage"></activity>
+        <activity android:name=".EditClass"></activity>
     </application>
 
 </manifest>

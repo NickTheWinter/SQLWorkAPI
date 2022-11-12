@@ -8,8 +8,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+
+import android.widget.TextView;
+import android.widget.Toast;
+
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -18,10 +25,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.util.Arrays;
 import java.util.Base64;
-import android.widget.Toast;
-
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +44,8 @@ public class AddingPage extends AppCompatActivity {
     private String encodedImage;
     TextInputLayout editName;
     TextInputLayout editWebsite;
+    String name;
+    String webSite;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,59 +57,47 @@ public class AddingPage extends AppCompatActivity {
 
     public void AddItems(View v){
         encodedImage = EncodeImage(((BitmapDrawable)addPhoto.getDrawable()).getBitmap());
+        name = editName.getEditText().getText().toString();
+        webSite = editWebsite.getEditText().getText().toString();
+        if(name.isEmpty() || webSite.isEmpty() || encodedImage.isEmpty())
+        {
+            Toast.makeText(this, "Введите все значения",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        postData(editName.getEditText().getText().toString(),
+                 editWebsite.getEditText().getText().toString(), encodedImage);
 
-        postData(editName.getEditText().getText().toString(), editWebsite.getEditText().getText().toString(), encodedImage);
+        goMain();
+    }
+    private void goMain(){
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
     private void postData(String name, String website, String encodedImage) {
 
-        // below line is for displaying our progress bar.
 
-        // on below line we are creating a retrofit
-        // builder and passing our base url
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://ngknn.ru:5001/NGKNN/%D0%97%D0%B8%D0%BC%D0%B5%D0%BD%D0%BA%D0%BE%D0%B2%D0%BD%D0%B8/api/airlines")
-                // as we are sending data in json format so
-                // we have to add Gson converter factory
+                .baseUrl("https://ngknn.ru:5001/NGKNN/Зименковни/api/airlines/")
+
                 .addConverterFactory(GsonConverterFactory.create())
-                // at last we are building our retrofit builder.
                 .build();
-        // below line is to create an instance for our retrofit api class.
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-        // passing data from our text fields to our modal class.
-        DataModal modal = new DataModal(name, website,encodedImage);
+        Mask modal = new Mask(0,name, website,encodedImage);
 
-        // calling a method to create a post and passing our modal class.
-        Call<DataModal> call = retrofitAPI.createPost(modal);
+        Call<Mask> call = retrofitAPI.createPost(modal);
 
-        // on below line we are executing our method.
-        call.enqueue(new Callback<DataModal>() {
+        call.enqueue(new Callback<Mask>() {
             @Override
-            public void onResponse(Call<DataModal> call, Response<DataModal> response) {
-                // this method is called when we get response from our api.
+            public void onResponse(Call<Mask> call, Response<Mask> response) {
+                Toast.makeText(AddingPage.this,"Данные добавлены",Toast.LENGTH_SHORT).show();
 
-                // below line is for hiding our progress bar.
-
-                // on below line we are setting empty text
-                // to our both edit text.
-                editWebsite.getEditText().setText("");
-                editName.getEditText().setText("");
-
-                // we are getting response from our body
-                // and passing it to our modal class.
-                DataModal responseFromAPI = response.body();
-
-                // on below line we are getting our data from modal class and adding it to our string.
-                String responseString = "Response Code : " + response.code() + "\nName : " + responseFromAPI.getName() + "\n" + "Website : " + responseFromAPI.getWebSite();
-
-                // below line we are setting our
-                // string to our text view.
             }
 
             @Override
-            public void onFailure(Call<DataModal> call, Throwable t) {
-                // setting text to our text view when
-                // we get error response from API.
+            public void onFailure(Call<Mask> call, Throwable t) {
+                Toast.makeText(AddingPage.this,t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -137,6 +136,6 @@ public class AddingPage extends AppCompatActivity {
     }
 
     public void Back (View v) {
-        this.finish();
+        goMain();
     }
 }
