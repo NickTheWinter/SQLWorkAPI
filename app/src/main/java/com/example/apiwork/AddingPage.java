@@ -44,8 +44,10 @@ public class AddingPage extends AppCompatActivity {
     private String encodedImage;
     TextInputLayout editName;
     TextInputLayout editWebsite;
-    String name;
-    String webSite;
+    String Name;
+    String Website;
+    String Image;
+    View v;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,24 +59,23 @@ public class AddingPage extends AppCompatActivity {
 
     public void AddItems(View v){
         encodedImage = EncodeImage(((BitmapDrawable)addPhoto.getDrawable()).getBitmap());
-        name = editName.getEditText().getText().toString();
-        webSite = editWebsite.getEditText().getText().toString();
-        if(name.isEmpty() || webSite.isEmpty() || encodedImage.isEmpty())
+        Image = encodedImage;
+        Name = editName.getEditText().getText().toString();
+        Website = editWebsite.getEditText().getText().toString();
+        if(Name.isEmpty() || Website.isEmpty() || Image.isEmpty())
         {
             Toast.makeText(this, "Введите все значения",Toast.LENGTH_SHORT).show();
             return;
         }
-        postData(editName.getEditText().getText().toString(),
-                 editWebsite.getEditText().getText().toString(), encodedImage);
+        postData(Name, Website, Image);
 
-        goMain();
     }
     private void goMain(){
         Intent intent = new Intent(this,MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
-    private void postData(String name, String website, String encodedImage) {
+    private void postData(String airline_name, String airline_website, String image) {
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -84,7 +85,7 @@ public class AddingPage extends AppCompatActivity {
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-        Mask modal = new Mask(0,name, website,encodedImage);
+        Mask modal = new Mask(0,airline_name, airline_website,image);
 
         Call<Mask> call = retrofitAPI.createPost(modal);
 
@@ -92,7 +93,7 @@ public class AddingPage extends AppCompatActivity {
             @Override
             public void onResponse(Call<Mask> call, Response<Mask> response) {
                 Toast.makeText(AddingPage.this,"Данные добавлены",Toast.LENGTH_SHORT).show();
-
+                Back(v);
             }
 
             @Override

@@ -16,5 +16,5 @@ public interface RetrofitAPI {
     Call<Mask> updatePost(@Query("id") int Id,@Body Mask maskModel);
 
     @DELETE("airlines/")
-    Call<Mask> deleteData(@Query("id") int Id);
+    Call<Mask> deletePost(@Query("id") int Id);
 }

@@ -52,13 +52,9 @@ public class MainActivity extends AppCompatActivity {
         airlinesList.setAdapter(pAdapter);
         updateList(v);
 
-        airlinesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        airlinesList.setOnItemClickListener((parent,view,position,id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //listView.setOnItemClickListener((parent, view, position, id) ->{
-
-
+                currentId = (int)id;
 
                 TextView nameTv = view.findViewById(R.id.AirlineName);
                 nameText = nameTv.getText().toString();
@@ -82,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 edit_page.putExtra("editPhoto",imageBm);
 
                 startActivity(edit_page);
-            };
+
         });
 
     }

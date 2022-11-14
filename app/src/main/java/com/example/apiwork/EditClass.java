@@ -1,5 +1,6 @@
 package com.example.apiwork;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -24,8 +25,7 @@ public class EditClass extends AppCompatActivity {
     private String encodedImage;
     TextInputLayout editName;
     TextInputLayout editWebsite;
-    String name;
-    String webSite;
+    int airline_id;
     View v;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,8 @@ public class EditClass extends AppCompatActivity {
         editWebsite.getEditText().setText(MainActivity.webSiteText);
         editPhoto.setImageBitmap(MainActivity.imageBm);
         encodedImage = addingPage.EncodeImage(((BitmapDrawable)editPhoto.getDrawable()).getBitmap());
+
+        airline_id = MainActivity.currentId;
     }
     public void editRow(View v){
         if(editName.getEditText().getText().toString().isEmpty() ||
@@ -51,20 +53,21 @@ public class EditClass extends AppCompatActivity {
         putData(editName.getEditText().getText().toString(),editWebsite.getEditText().getText().toString(),
                 encodedImage);
     }
-    private void putData(String name, String webSite, String image) {
+    public void deleteRow(View v){
+        deleteData();
+    }
+    private void deleteData() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl
                         ("https://ngknn.ru:5001/NGKNN/Зименковни/Api/airlines/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-        Mask modal = new Mask(MainActivity.currentId, name, webSite, image);
-
-        //Call<Mask> call = retrofitAPI.updateData(modal.getId(), modal);
-
-        /*call.enqueue(new Callback<Mask>() {
+        Call<Mask> call = retrofitAPI.deletePost(airline_id);
+        call.enqueue(new Callback<Mask>() {
             @Override
             public void onResponse(@NonNull Call<Mask> call, @NonNull Response<Mask> response) {
-                Toast.makeText(EditClass.this, "Data updated to API", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditClass.this, "Data was deleted", Toast.LENGTH_SHORT).show();
+                back(v);
             }
 
             @Override
@@ -72,6 +75,40 @@ public class EditClass extends AppCompatActivity {
                 Toast.makeText(EditClass.this, t.getMessage(),
                         Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
+    }
+    private void putData(String airline_name, String airline_website, String image) {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl
+                        ("https://ngknn.ru:5001/NGKNN/Зименковни/Api/airlines/")
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+
+        Mask modal = new Mask(airline_id, airline_name, airline_website, image);
+
+        Call<Mask> call = retrofitAPI.updatePost(modal.getID(), modal);
+
+        call.enqueue(new Callback<Mask>() {
+            @Override
+            public void onResponse(@NonNull Call<Mask> call, @NonNull Response<Mask> response) {
+                Toast.makeText(EditClass.this, "Data updated", Toast.LENGTH_SHORT).show();
+                back(v);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Mask> call, @NonNull Throwable t) {
+                Toast.makeText(EditClass.this, t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void goMain(){
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+    public void back (View v) {
+        goMain();
     }
 }
