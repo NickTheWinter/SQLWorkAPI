@@ -1,10 +1,6 @@
 package com.example.apiwork;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -36,7 +32,7 @@ public class AdapterMask  extends BaseAdapter {
     @Override
     public long getItemId(int i)
     {
-        return maskList.get(i).getID();
+        return maskList.get(i).getAirline_id();
     }
     @Override
     public View getView(int i, View view, ViewGroup viewGroup)
@@ -49,8 +45,8 @@ public class AdapterMask  extends BaseAdapter {
 
         Mask mask = maskList.get(i);
 
-        AirlineName.setText(mask.getAirlineName());
-        AirlineWebSite.setText(mask.getAirlineWebSite());
+        AirlineName.setText(mask.getAirline_name());
+        AirlineWebSite.setText(mask.getAirline_website());
         imageView.setImageBitmap(mask.getAirlineImage(mask.getImage()));
 
 

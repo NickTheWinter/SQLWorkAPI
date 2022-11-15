@@ -8,23 +8,23 @@ import android.util.Base64;
 
 
 public class Mask implements Parcelable {
-    private int ID;
-    private String AirlineName;
-    private String AirlineWebSite;
-    private String Image;
+    private int airline_id;
+    private String airline_name;
+    private String airline_website;
+    private String image;
 
     public Mask(int ID, String airlineName, String airlineWebSite, String image) {
-        this.ID = ID;
-        AirlineName = airlineName;
-        AirlineWebSite = airlineWebSite;
-        Image = image;
+        this.airline_id = ID;
+        airline_name = airlineName;
+        airline_website = airlineWebSite;
+        this.image = image;
     }
 
     protected Mask(Parcel in) {
-        ID = in.readInt();
-        AirlineName = in.readString();
-        AirlineWebSite = in.readString();
-        Image = in.readString();
+        airline_id = in.readInt();
+        airline_name = in.readString();
+        airline_website = in.readString();
+        image = in.readString();
     }
 
     public static final Creator<Mask> CREATOR = new Creator<Mask>() {
@@ -40,20 +40,20 @@ public class Mask implements Parcelable {
     };
 
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setAirline_id(int airline_id) {
+        this.airline_id = airline_id;
     }
 
     //public void setProductTypeID(String productTypeID) {
     //    ProductTypeID = productTypeID;
     //}
 
-    public void setAirlineName(String airlineName) {
-        AirlineName = airlineName;
+    public void setAirline_name(String airline_name) {
+        this.airline_name = airline_name;
     }
 
-    public void setAirlineWebSite(String airlineWebSite) {
-        AirlineWebSite = airlineWebSite;
+    public void setAirline_website(String airline_website) {
+        this.airline_website = airline_website;
     }
 
     @Override
@@ -63,19 +63,19 @@ public class Mask implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(ID);
-        parcel.writeString(AirlineName);
-        parcel.writeString(AirlineWebSite);
-        parcel.writeString(Image);
+        parcel.writeInt(airline_id);
+        parcel.writeString(airline_name);
+        parcel.writeString(airline_website);
+        parcel.writeString(image);
     }
     public Bitmap getAirlineImage(String encodedImg){
         byte[] bytes = Base64.decode(encodedImg, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes,0,bytes.length);
     }
-    public String getAirlineName(){return AirlineName;}
-    public String getAirlineWebSite(){return AirlineWebSite;}
-    public String getImage(){return Image;}
-    public int getID() {
-        return ID;
+    public String getAirline_name(){return airline_name;}
+    public String getAirline_website(){return airline_website;}
+    public String getImage(){return image;}
+    public int getAirline_id() {
+        return airline_id;
     }
 }

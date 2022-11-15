@@ -1,7 +1,6 @@
 package com.example.apiwork;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -86,7 +85,7 @@ public class EditClass extends AppCompatActivity {
 
         Mask modal = new Mask(airline_id, airline_name, airline_website, image);
 
-        Call<Mask> call = retrofitAPI.updatePost(modal.getID(), modal);
+        Call<Mask> call = retrofitAPI.updatePost(modal.getAirline_id(), modal);
 
         call.enqueue(new Callback<Mask>() {
             @Override
@@ -106,6 +105,7 @@ public class EditClass extends AppCompatActivity {
     private void goMain(){
         Intent intent = new Intent(this,MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        ((MainActivity)getApplicationContext()).updateList(v);
         startActivity(intent);
     }
     public void back (View v) {

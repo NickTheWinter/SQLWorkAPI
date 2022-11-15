@@ -73,6 +73,7 @@ public class AddingPage extends AppCompatActivity {
     private void goMain(){
         Intent intent = new Intent(this,MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        ((MainActivity)getApplicationContext()).updateList(v);
         startActivity(intent);
     }
     private void postData(String airline_name, String airline_website, String image) {
