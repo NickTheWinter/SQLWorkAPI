@@ -1,12 +1,18 @@
 package com.example.apiwork;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterMask  extends BaseAdapter {
@@ -14,6 +20,7 @@ public class AdapterMask  extends BaseAdapter {
     private Context mContext;
     List<Mask> maskList;
 
+    private List<Mask> mOriginalValues;
     public AdapterMask(Context mContext, List<Mask> listProduct) {
         this.mContext = mContext;
         this.maskList = listProduct;
@@ -51,6 +58,48 @@ public class AdapterMask  extends BaseAdapter {
 
 
         return v;
+    }
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint,FilterResults results) {
+
+                maskList = (ArrayList<Mask>) results.values; // has the filtered values
+                notifyDataSetChanged();  // notifies the data with new filtered values
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
+                ArrayList<Mask> FilteredArrList = new ArrayList<Mask>();
+
+                if (mOriginalValues == null) {
+                    mOriginalValues = new ArrayList<Mask>(maskList); // saves the original data in mOriginalValues
+                }
+                if (constraint == null || constraint.length() == 0) {
+
+                    // set the Original result to return
+                    results.count = mOriginalValues.size();
+                    results.values = mOriginalValues;
+                } else {
+                    constraint = constraint.toString().toLowerCase();
+                    for (int i = 0; i < mOriginalValues.size(); i++) {
+                        String data = mOriginalValues.get(i).getAirline_name();
+                        if (data.toLowerCase().startsWith(constraint.toString())) {
+                            FilteredArrList.add(new Mask(mOriginalValues.get(i).getAirline_id(),mOriginalValues.get(i).getAirline_name(),
+                                    mOriginalValues.get(i).getAirline_website(),mOriginalValues.get(i).getImage()));
+                        }
+                    }
+
+                    results.count = FilteredArrList.size();
+                    results.values = FilteredArrList;
+                }
+                return results;
+            }
+        };
+        return filter;
     }
 }
 

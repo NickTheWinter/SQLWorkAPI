@@ -44,10 +44,6 @@ public class Mask implements Parcelable {
         this.airline_id = airline_id;
     }
 
-    //public void setProductTypeID(String productTypeID) {
-    //    ProductTypeID = productTypeID;
-    //}
-
     public void setAirline_name(String airline_name) {
         this.airline_name = airline_name;
     }

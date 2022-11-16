@@ -2,6 +2,11 @@
 <resources>
     <color name="appBackground">#730337</color>
     <color name="pink_700">#D91872</color>
+    <color name="pink_500">#BF4E8C</color>
+    <color name="pink_400">#D36FA6</color>
+    <color name="pink_100">#E2BCCE</color>
+    <color name="pink_600">#AE3B7A</color>
+    <color name="pink_600_60">#99AE3B7A</color>
     <color name="pink_1000">#BF4E8C</color>
     <color name="pink_900">#AE3B7A</color>
     <color name="purple_200">#FFBB86FC</color>

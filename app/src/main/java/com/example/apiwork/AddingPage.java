@@ -42,6 +42,7 @@ public class AddingPage extends AppCompatActivity {
 
     private ImageView addPhoto;
     private String encodedImage;
+    MainActivity mainActivity;
     TextInputLayout editName;
     TextInputLayout editWebsite;
     String Name;
@@ -73,7 +74,6 @@ public class AddingPage extends AppCompatActivity {
     private void goMain(){
         Intent intent = new Intent(this,MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        ((MainActivity)getApplicationContext()).updateList(v);
         startActivity(intent);
     }
     private void postData(String airline_name, String airline_website, String image) {
@@ -109,7 +109,7 @@ public class AddingPage extends AppCompatActivity {
         pickImg.launch(intent);
     }
     //отдельный метод для открытия
-    private final ActivityResultLauncher<Intent> pickImg = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    public final ActivityResultLauncher<Intent> pickImg = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == RESULT_OK) {
             if (result.getData() != null) {
                 Uri uri = result.getData().getData();

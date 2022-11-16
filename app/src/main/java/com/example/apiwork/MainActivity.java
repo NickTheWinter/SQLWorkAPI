@@ -7,9 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,58 +38,88 @@ public class MainActivity extends AppCompatActivity {
     ListView airlinesList;
     private List<Mask> listAirlines = new ArrayList<>();
     Intent edit_page;
+    Button updateBtn;
     public static String nameText;
     public static String webSiteText;
     public static ImageView image;
     public static Bitmap imageBm;
     public static int currentId;
+    EditText search;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+            updateList();
+        }
+        catch (Exception ex){
+            Log.e("Error: ",ex.getMessage());
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         airlinesList = findViewById(R.id.AirList);
         pAdapter = new AdapterMask(MainActivity.this, listAirlines);
-
+        updateBtn = findViewById(R.id.updateButton);
         edit_page = new Intent(MainActivity.this, EditClass.class);
         edit_page.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
+        search = findViewById(R.id.Search);
+
         airlinesList.setAdapter(pAdapter);
-        updateList(v);
-
-        airlinesList.setOnItemClickListener((parent,view,position,id) -> {
-
-                currentId = (int)id;
-
-                TextView nameTv = view.findViewById(R.id.AirlineName);
-                nameText = nameTv.getText().toString();
-
-                TextView webSiteTv = view.findViewById(R.id.AirlineWebsite);
-                webSiteText = webSiteTv.getText().toString();
-
-                image = view.findViewById(R.id.imageView);
-                imageBm = ((BitmapDrawable)image.getDrawable()).getBitmap();
 
 
-
-                TextInputLayout editName = findViewById(R.id.editName);
-                edit_page.putExtra("editName",nameText);
-
-                TextInputLayout editWebSite = findViewById(R.id.editWebsite);
-                //editWebSite.getEditText().setText(webSiteText);
-                edit_page.putExtra("editWebSite",webSiteText);
-
-
-                edit_page.putExtra("editPhoto",imageBm);
-
-                startActivity(edit_page);
-
-        });
+        InitListners();
 
     }
-    public void updateList(View v){
+    private void Searching(){
+        String entered = search.getText().toString();
+        pAdapter.getFilter().filter(entered);
+    }
+    private void InitListners(){
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Searching();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        updateBtn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateList();
+            }
+        });
+        airlinesList.setOnItemClickListener((parent,view,position,id) -> {
+
+            currentId = (int)id;
+
+            TextView nameTv = view.findViewById(R.id.AirlineName);
+            nameText = nameTv.getText().toString();
+
+            TextView webSiteTv = view.findViewById(R.id.AirlineWebsite);
+            webSiteText = webSiteTv.getText().toString();
+
+            image = view.findViewById(R.id.imageView);
+            imageBm = ((BitmapDrawable)image.getDrawable()).getBitmap();
+
+            startActivity(edit_page);
+
+        });
+    }
+    private void updateList(){
         listAirlines.clear();
         try {
-
             new GetAirlines().execute();
         }
         catch (Exception ex){

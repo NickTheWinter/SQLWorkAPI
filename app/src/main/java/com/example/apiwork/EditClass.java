@@ -24,21 +24,23 @@ public class EditClass extends AppCompatActivity {
     private String encodedImage;
     TextInputLayout editName;
     TextInputLayout editWebsite;
+    AddingPage addingPage;
     int airline_id;
     View v;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editing_page);
+
         editPhoto = findViewById(R.id.editPhoto);
         editName = findViewById(R.id.editName);
         editWebsite = findViewById(R.id.editWebsite);
 
-        AddingPage addingPage = new AddingPage();
-
         editName.getEditText().setText(MainActivity.nameText);
         editWebsite.getEditText().setText(MainActivity.webSiteText);
         editPhoto.setImageBitmap(MainActivity.imageBm);
+
+        addingPage = new AddingPage();
         encodedImage = addingPage.EncodeImage(((BitmapDrawable)editPhoto.getDrawable()).getBitmap());
 
         airline_id = MainActivity.currentId;
@@ -76,6 +78,9 @@ public class EditClass extends AppCompatActivity {
             }
         });
     }
+    public void ImageChoose(View v){
+        addingPage.ImageChoose(v);
+    }
     private void putData(String airline_name, String airline_website, String image) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl
                         ("https://ngknn.ru:5001/NGKNN/Зименковни/Api/airlines/")
@@ -105,7 +110,6 @@ public class EditClass extends AppCompatActivity {
     private void goMain(){
         Intent intent = new Intent(this,MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        ((MainActivity)getApplicationContext()).updateList(v);
         startActivity(intent);
     }
     public void back (View v) {

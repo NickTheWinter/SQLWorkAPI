@@ -6,14 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/Search"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:hint="Enter something to search"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="6dp"
+        android:textColorHint="@color/pink_100"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <ListView
         android:id="@+id/AirList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/goToAdd">
+        app:layout_constraintBottom_toTopOf="@id/goToAdd">
 
     </ListView>
 
@@ -22,12 +34,12 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-
         android:onClick="goAdd"
         android:text="ADD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/updateButton"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="25dp"
         tools:ignore="UsingOnClickInXml" />
 
     <Button
@@ -39,6 +51,7 @@
         android:text="UPDATE"
         app:layout_constraintEnd_toStartOf="@+id/goToAdd"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="25dp"
         tools:ignore="UsingOnClickInXml" />
 </androidx.constraintlayout.widget.ConstraintLayout>
